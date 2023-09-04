@@ -18,9 +18,9 @@ describe("Donate Contract", function () {
     [owner] = await ethers.getSigners();
     Donate = await ethers.getContractFactory("Donate");
     donate = await Donate.deploy(ethers.parseEther("1000")); // Deploy with a targetAmount of 1000 ETH in wei
-    // await donate.deployed();
+    await donate.deployed();
 
-    // const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+    // 
 
   });
 
