@@ -65,3 +65,19 @@ describe("Donate Contract", function () {
         await donation. connect(donor).donate"test donation", { value: parseEther ("1.0") };
         (beneficiary).withdraw();
 });
+        describe("withdraw", function () {
+    
+    it("should not allow a non-beneficiary to withdraw the funds", async function () {
+      await expect(donationContract.connect(donor1).withdrawFunds()).to.be.revertedWith("No funds to withdraw or not a beneficiary");
+    })
+            
+            it('should emit a Withdrawal event when a beneficiary withdraws funds', async function () {
+      await donationContract.connect(donor1).donate("first", { value: ethers.parseEther("1") });
+      const withdrawalTransaction = donationContract.connect(beneficiary1).withdrawFunds();
+      const timestamp = (await (await withdrawalTransaction).provider.getBlock('latest'))?.timestamp;
+
+      await expect(withdrawalTransaction)
+        .to.emit(donationContract, "FundsWithdrawn")
+        .withArgs(beneficiary1.address, ethers.parseEther('1'),  timestamp );
+    })
+    
