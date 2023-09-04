@@ -16,6 +16,8 @@ mapping(campaign =>bool ) public ;
     event WithdrawalMade(
         address indexed recipient,
         uint amount,
+string amount
+
         uint timestamp
     );
 
