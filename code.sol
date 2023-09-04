@@ -4,10 +4,6 @@ pragma solidity 0.8.19;
 // Donate Matic; Donate. Gift Purpose can be stored as 'purpose' string in donations contract
 //
 //Track Donations;blockexplorer transaction info of contract address
-// view donor list; blockexplorer display of addresses received from
-//View Total; Get All Received Tokens
-//withdraw tokens;
-//set beneficiary; address = msg.sender
 //emergency stop = disable donations button or metamask disconnect ?
 //
 
