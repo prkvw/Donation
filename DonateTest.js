@@ -20,10 +20,21 @@ describe("Donate Contract", function () {
     donate = await Donate.deploy(ethers.parseEther("1000")); // Deploy with a targetAmount of 1000 ETH in wei
     await donate.deployed();
 
-    // 
+    // non zero donation
+      it("should not allow a user to donate to the contract if amount is 0", async function () {
+      await expect(donationContract.connect(donor1).donate("purpose", { value: 0 }))
+      .to.be.revertedWith("Donation amount must be greater than 0");
+    });
+
+      //deploy 
+      it("should run donate function when funds are sent to contract", async function () {
+      const beneficiary1DonationAmountBefore = await donationContract.getAmountReceived(beneficiary1.address);
+      const tx = await donor1.sendTransaction({
+        to: donationContract.target,
+        value: ethers.parseEther("1"),
 
   });
-
+//create org 
   it("should create an organization", async function () {
     const orgName = "Example Organization";
     const orgAbout = "This is an example organization";
@@ -41,9 +52,14 @@ describe("Donate Contract", function () {
     expect(org.goalAmount).to.equal(orgGoalAmount);
     expect(org.currentAmount).to.equal(0); // Initial currentAmount should be zero
   });
+// Beneficiary
+    describe("Deployment", function () {
+    it("Should set the right beneficiary", async function () {
+   
+      expect(await donationContract.currentBeneficiary()).to.equal(beneficiary1.address);
+    });
 // test active donation activity status from stopCampaign function
 
-    //test balance update after donation
     it("should confirm withdrawal", async function () {
     const { donation, donor, beneficiary } await loadFixture (deployDonationFixture);  
         await donation. connect(donor).donate"test donation", { value: parseEther ("1.0") };
