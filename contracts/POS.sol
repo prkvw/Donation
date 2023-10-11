@@ -32,30 +32,49 @@ contract PointOfSale {
     title,
    }
 
+    // Struct to represent sales
+    struct Receipt {
+        uint256 id;
+        address buyer;
+        uint256 productId;
+        uint256 quantity;
+        uint256 totalAmount;
+    }
+
    enum payMethod {
    ETH
    USDT
    }
 
-    // Define an event to emit when a sale is made
-    event Sale(string item, uint quantity, uint price, uint total);
+    // Define an event when a sale is made
+    event Sale(address indexed buyer, uint256 productId, uint256 quantity, uint256 totalAmount);
+
+ // Event to log refunds
+    event Refund(address indexed buyer, uint256 productId, uint256 totalAmount);
 
     // Constructor function to set the admin as the contract owner
-    constructor() {
+    constructor(address paymentTokenAddress) {
         admin = msg.sender;
+        // set payment ERC20 token
+        usdt = IERC20(paymentTokenAddress);
     }
 
     // Function to add items to the inventory
-    function addItem(string memory item, uint quantity) public {
+   function addProduct(uint256 _productId, string memory _name, uint256 _price, uint256 _initialInventory) public {
         require(msg.sender == admin, "Only the admin can add items to the inventory");
-        inventory[item] += quantity;
+         require(products[_productId].id == 0, "Product ID already exists");
+         
+         products[_productId] = Product(_productId, _name, _price);
+        productInventory[_productId] = _initialInventory;
+        
     }
 
+
     // Function to remove items from the inventory
-    function removeItem(string memory item, uint quantity) public {
+    function removeItem(uint256 memory productId, uint quantity) public {
         require(msg.sender == admin, "Only the admin can remove items from the inventory");
         require(inventory[item] >= quantity, "Not enough items in the inventory");
-        inventory[item] -= quantity;
+        productInventory[_productId] += _initialInventory;
     }
 
     // Function to make a sale
@@ -64,14 +83,37 @@ contract PointOfSale {
         require(msg.value == quantity * price, "Incorrect payment amount");
 
         // Update the inventory
-        inventory[item] -= quantity;
+        productInventory[_productId] -= _quantity;
 
         // Emit the Sale event
-        emit Sale(item, quantity, price, quantity * price);
+        emit Sale(msg.sender, _quantity, _productId);
     }
-    function withdraw(address tokenAddress) public onlyAdmin {
+function refund(uint256 _receiptId) external {
+        require(_receiptId < numTransactions, "Invalid receipt");
+        Receipt memory _receipt = receipts[_receiptId];
+        require(_receipt.buyer == msg.sender, "Only buyer can get a refund");
+
+        uint256 _productId = _receipt.productId;
+        uint256 _quantity = _receipt.quantity;
+        uint256 _totalAmount = _receipt.totalAmount;
+
+        // update sales stuff
+        productInventory[_productId] += _quantity;
+        productSales[_productId] -= _quantity;
+        totalSales -= _totalAmount;
+         receipts[numTransactions] = Receipt(numTransactions, msg.sender, _productId, _quantity, totalPrice);
+        numTransactions++;
+        
+
+        // issue refund
+        payable(msg.sender).transfer(_totalAmount); // unsafe, should include checks to make sure there's a balance
+
+        emit Refund(msg.sender, _productId, _totalAmount);
+    }
+
+    function withdraw(uint256 _amount) public payable onlyAdmin {
         uint256 balance = IERC20(tokenAddress).balanceOf(address(this));
-        require(balance > 0, "No funds to withdraw");
+         require(_amount <= address(this).balance, "Insufficient contract balance");
 
         IERC20(tokenAddress).transfer(admin, balance);
     }
@@ -81,11 +123,10 @@ contract PointOfSale {
         _;
     }
 
-function purchaseProductwithETH () {
-require
-
-    function purchaseProductwithStable () {
-require
-
+function purchaseProductwithETH () {(uint256 _productId, uint256 _quantity, uint256 _amount) private {
+        require(msg.value >= _amount, "Insufficient funds");
     }
-}
+
+     function _purchaseProductWithStable(uint256 _productId, uint256 _quantity, uint256 _amount) private {
+        require(usdt.transferFrom(msg.sender, address(this), _amount), "Transfer failed");
+    }
