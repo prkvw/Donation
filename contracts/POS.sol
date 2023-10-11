@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+pragma solidity ^0.8.20;
 
-// Set the version of Solidity to use
-pragma solidity ^0.8.0;
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 // Define the contract
 contract PointOfSale {
     // Define the admin as the contract owner
-    address public admin;
+    address public owner;  // The owner of the contract
+    uint256 public totalSales;  // Total sales amount
+    uint256 public numTransactions;  // Total number of transactions
+    IERC20 usdt;
 
     // Define a mapping to store the inventory
     mapping(string => uint) public inventory;
