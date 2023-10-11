@@ -11,16 +11,26 @@ contract PointOfSale {
     uint256 public numTransactions;  // Total number of transactions
     IERC20 usdt;
 
-    // Define a mapping to store the inventory
-    mapping(string => uint) public inventory;
+
+    // Mapping to store products by their IDs
+    mapping(uint256 => Product) public products;
+
+    // Mapping to track the inventory of each product
+    mapping(uint256 => uint256) public productInventory;
+
+    // Mapping to keep track of product sales
+    mapping(uint256 => uint256) public productSales;
+
+    // Mapping to track receipts
+    mapping(uint256 => Receipt) public receipts;
+
 
     // Define a struct to represent a product
-   struct [
+   struct Product {
     productId,
     price,
     title,
-
-   ]
+   }
 
    enum payMethod {
    ETH
