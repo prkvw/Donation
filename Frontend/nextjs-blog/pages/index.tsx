@@ -1,5 +1,5 @@
 import { Inter } from 'next/font/google'
-import { Product } from '@/components/product'
+import { Product } from '/components/product'
 
 const inter = Inter({ subsets: ['latin'] })
 
