@@ -11,11 +11,14 @@ describe("PointOfSale contract", function () {
 
   const payWithEther = 0;
   const payWithUsdt = 1;
-
+  const {
+    loadFixture,
+  } = require("@nomicfoundation/hardhat-toolbox/network-helpers");
+  
   describe("Purchase products with ETH", function () {
+    //async function deployPointOfSaleFixture() {
     before(async function () {
       [owner, user1, user2] = await ethers.getSigners();
-
       // Deploy the USDT faucet contract
       const MockUSDT = await ethers.getContractFactory("MockUSDT");
       mockUsdt = await MockUSDT.deploy();
@@ -25,10 +28,11 @@ describe("PointOfSale contract", function () {
       const PointOfSale = await ethers.getContractFactory("PointOfSale");
       pointOfSale = await PointOfSale.deploy(await mockUsdt.getAddress());
       await pointOfSale.waitForDeployment();
-
+//return { PointOfSale, owner, user1, user2 };
       mockUsdt.connect(owner).transfer(user1.address, 1000);
       mockUsdt.connect(owner).transfer(user2.address, 1000);
     });
+//const { pointOfSale, owner } = await loadFixture(deployPointOfSaleFixture);
 
     it("Should add a product", async function () {
       // Add a product by the owner
