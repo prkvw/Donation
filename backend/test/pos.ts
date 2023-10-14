@@ -109,6 +109,7 @@ describe("PointOfSale contract", function () {
     });
 
     it("Should purchase a product", async function () {
+      await mockUsdt.connect(user1).approve(pointOfSale.target, payWithUsdt)
       // User1 purchases a product
       await pointOfSale.connect(user1).purchaseProduct(1, 3, payWithUsdt);
 
