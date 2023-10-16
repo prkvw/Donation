@@ -1,19 +1,22 @@
 
 import { expect } from "chai";
 import { ethers } from "hardhat";
+import { MockUSDT, PointOfSale } from "../typechain-types";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+
 
 describe("PointOfSale contract", function () {
-  let owner: any;
-  let user1: any;
-  let user2: any;
-  let pointOfSale: any;
-  let mockUsdt: any;
+  let owner: SignerWithAddress;
+  let user1: SignerWithAddress;
+  let user2: SignerWithAddress;
+  let pointOfSale: PointOfSale;
+  let mockUsdt: MockUSDT;
 
   const payWithEther = 0;
   const payWithUsdt = 1;
-  const {
-    loadFixture,
-  } = require("@nomicfoundation/hardhat-toolbox/network-helpers");
+  //const {
+    //loadFixture,
+ // } = require("@nomicfoundation/hardhat-toolbox/network-helpers");
   
   describe("Purchase products with ETH", function () {
     //async function deployPointOfSaleFixture() {
@@ -108,7 +111,16 @@ describe("PointOfSale contract", function () {
       expect(product.price).to.equal(ethers.parseEther("1"));
     });
 
-    it("Should purchase a product", async function () {
+    it("Should purchase a product with ETH", async function () {
+      // User1 purchases a product
+      await pointOfSale.connect(user1).purchaseProduct(1, 3, payWithEther,  { value: ethers.parseEther("3") });
+
+      // Check if the inventory and sales data have been updated
+      const inventory = await pointOfSale.productInventory(1);
+      const sales = await pointOfSale.productSales(1);
+      const totalSales = Number(await pointOfSale.totalSales());
+
+    it("Should purchase a product with USDT ", async function () {
       await mockUsdt.connect(user1).approve(pointOfSale.target, payWithUsdt)
       // User1 purchases a product
       await pointOfSale.connect(user1).purchaseProduct(1, 3, payWithUsdt);
@@ -122,6 +134,7 @@ describe("PointOfSale contract", function () {
       expect(sales).to.equal(3);
       expect(totalSales).to.equal(Number(ethers.parseEther("3")));
     });
+
 
     it("Should not allow purchasing without sufficient funds", async function () {
       // User2 tries to purchase a product without enough funds
