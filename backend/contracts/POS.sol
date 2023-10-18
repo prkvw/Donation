@@ -27,12 +27,12 @@ contract PointOfSale {
         uint256 id;
         address buyer;
         uint256 productId;
-        uint256 quantity;
+        uint quantity;
         uint256 totalAmount;
     }
 
     // Mapping to store products by their IDs
-    mapping(uint256 => Product) public products;
+    mapping(uint => Product) public products;
 
     // Mapping to track the inventory of each product
     mapping(uint256 => uint256) public productInventory;
@@ -44,7 +44,7 @@ contract PointOfSale {
     mapping(uint256 => Receipt) public receipts;
 
     // Event to log sales transactions
-    event Sale(address indexed buyer, uint256 productId, uint256 quantity, uint256 totalAmount);
+    event Sale(address indexed buyer, uint256 productId, uint quantity, uint256 totalAmount);
 
     // Event to log refunds
     event Refund(address indexed buyer, uint256 productId, uint256 totalAmount);
@@ -56,26 +56,38 @@ contract PointOfSale {
     }
 
     // Function to add a product to the store
-    function addProduct(uint256 _productId, string memory _name, uint256 _price, uint256 _initialInventory) public {
+    function addProduct(uint256 _productId, string memory _name, uint256 _price, uint _initialInventory) public {
         require(msg.sender == owner, "Only the owner can add products");
         require(products[_productId].id == 0, "Product ID already exists");
-
+ // Set gas limit to 1000000
+        uint256 gasLimit = 1000000;
+        require(gasleft() >= gasLimit, "Not enough gas");
         products[_productId] = Product(_productId, _name, _price);
         productInventory[_productId] = _initialInventory;
     }
 
-    function _purchaseProductWithStable(uint256 _productId, uint256 _quantity, uint256 _amount) private {
+    function _purchaseProductWithStable(uint256 _productId, uint _quantity, uint256 _amount) private {
         require(usdt.transferFrom(msg.sender, address(this), _amount), "Transfer failed");
+        //Allowance
+         // Set gas limit to 1000000
+        uint256 gasLimit = 1000000;
+        require(gasleft() >= gasLimit, "Not enough gas");
     }
 
-    function _purchaseProductWithEther(uint256 _productId, uint256 _quantity, uint256 _amount) private {
+    function _purchaseProductWithEther(uint256 _productId, uint _quantity, uint256 _amount) private {
         require(msg.value >= _amount, "Insufficient funds");
+         // Set gas limit to 1000000
+        uint256 gasLimit = 1000000;
+        require(gasleft() >= gasLimit, "Not enough gas");
     }
 
     // Function to purchase a product
-    function purchaseProduct(uint256 _productId, uint256 _quantity, PayMethod _payMethod) public payable {
+    function purchaseProduct(uint256 _productId, uint _quantity, PayMethod _payMethod) public payable {
         require(products[_productId].id != 0, "Product does not exist");
         require(productInventory[_productId] >= _quantity, "Insufficient inventory");
+         // Set gas limit to 1000000
+        uint256 gasLimit = 1000000;
+        require(gasleft() >= gasLimit, "Not enough gas");
         uint256 totalPrice = products[_productId].price * _quantity;
 
         if(_payMethod == PayMethod.ETH) {
@@ -102,7 +114,7 @@ contract PointOfSale {
         require(_receipt.buyer == msg.sender, "Only buyer can get a refund");
 
         uint256 _productId = _receipt.productId;
-        uint256 _quantity = _receipt.quantity;
+        uint _quantity = _receipt.quantity;
         uint256 _totalAmount = _receipt.totalAmount;
 
         // update sales stuff

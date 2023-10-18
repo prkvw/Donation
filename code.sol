@@ -11,13 +11,12 @@ contract Donate {
     // create organization
     address public owner;
 mapping(campaignId =>uint ) public _Id;
-mapping(campaign =>bool ) public ;
+// mapping(campaign =>bool ) public ;
     event DonationMade(address donor, uint amount);
     event WithdrawalMade(
         address indexed recipient,
         uint amount,
-string amount
-
+string amount,
         uint timestamp
     );
 
@@ -45,8 +44,7 @@ string amount
     }
 function stopCampaign ( string ) public {  
 require(org.creator == msg.sender, "You do not have permission");
-        campaigns [id].active = false
-}
+        campaigns [id].active = false }
 
     function createOrganization(
         string memory _name,

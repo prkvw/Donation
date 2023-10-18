@@ -1,11 +1,10 @@
 import * as backend from './nextjs-blog/components/product.js';
-import {loadStdlib} from '@reach-sh/stdlib';
-const reach = loadStdlib(process.env);
+import Link from 'next/link';
 
 
-//event Goalscored ()
-//event showRand ()
-//event penaltyWon ()
-// constructor public ER721('worldcup', 'WCP) {}
-//function pitch public return bool 
-// 
+
+
+
+<h1 className={styles.title}>
+  Peek <Link href="/posts/draft">at the Dash</Link>
+</h1>
