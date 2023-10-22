@@ -1,37 +1,45 @@
-import Head from 'next/head'
+import { Inter } from 'next/font/google'
 import styles from '../styles/Home.module.css'
+import Head from 'next/head'
+import Parent from './Components/parent'
+
 import Link from 'next/link';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/registry/new-york/ui/card"
+
 
 export default function Home (){
-  return (
-    <div className ={styles.container}>
-<Head>
-  <title>POS</title>
-  <meta name="description" content="sB+Mowblox = Magic" />
-  <link rel ="icon" href="/favicon.ico" />
-</Head>
-<parent>
-  <div className= 'flex text-white-font'>
-  <div className = 'p-10 bg-slate-900 text-white-rounded-x1'>
-    <h1 className= 'text-3xl' >Total Sold</h1>
-    <h1>$126,389</h1>
-  </div>
-  </div>
-</parent>
 
-<h1 className={styles.title}>
-  Peek <Link href="/posts/draft">at the Dash</Link>
-</h1>
-
- 
-</div>
- )
-}
-
+      return (
+        <div>
+    <Head>
+      <title>POS</title>
+      <meta name="description" content="sB+Mowblox = Magic" />
+      <link rel ="icon" href="/favicon.ico" />
+    </Head>
+    <Parent>
+    <div className= 'flex text-blue flex-col space-y-8 font-bold'>
+      <div className = 'space-y-6'>
+      <h1 className= 'text-4xl text-black'>Today's Data</h1>
+      <div className = 'p-10 bg-white-400 text-blue-rounded-x1'>
+    
+    
+      <div className = 'p-10 bg-white-400 text-blue-rounded-x1'>
+        <h1 className= 'text-3xl' >Total Sales</h1>
+        <h1 className = 'mt-2 text-2xl'>$126,000</h1>
+      </div>
+      <div className = 'p-10 bg-white-400 text-blue-rounded-x1'>
+        <h1 className= 'text-3xl' >Total</h1>
+        <h1 className = 'mt-2 text-2xl'>$126,389</h1>
+      </div>
+      <div className = 'p-10 bg-white-400 text-blue-rounded-x1'>
+        <h1 className= 'text-3xl' >Total Refunds Due</h1>
+        <h1 className = 'mt-2 text-2xl'>$389</h1>
+      </div>
+      </div>
+         
+          </div>
+        </div>
+        </Parent>
+        </div>
+      )}
+        
+//className = {styles.container}

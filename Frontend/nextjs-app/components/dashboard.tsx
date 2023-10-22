@@ -1,6 +1,3 @@
-import { Button } from "@/registry/new-york/ui/button"
-import { RecentSales } from "@/app/examples/dashboard/components/recent-sales"
-import { Search } from "@/app/examples/dashboard/components/search"
 
 import {
   Card,
@@ -34,7 +31,7 @@ import {
                       +20.1% from last month
                     </p>
                   </CardContent>
-                </Card>
+            
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
