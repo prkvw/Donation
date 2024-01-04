@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css'
-import App from './App';
+import App from './pages/App';
 
 import Link from 'next/link';
 import { ContextProvider } from './contexts/ContextProvider';
