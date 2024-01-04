@@ -21,7 +21,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "components/parent.js", "pages/index.js"  ],
+, "components/parent.js", "a/pages/index.js", "a/components/Employees.jsx"  ],
   "exclude": [
     "node_modules"
   ]

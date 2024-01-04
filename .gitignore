@@ -1,6 +1,10 @@
 .env
 node_modules
 
+#JSON 
+.json
+package.json
+
 coverage
 coverage.json
 typechain
@@ -9,3 +13,6 @@ typechain-types
 # Hardhat files
 cache
 artifacts
+
+config.js
+.gitignore
