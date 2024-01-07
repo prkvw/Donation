@@ -1,5 +1,5 @@
 # Point of sale Machine
-This Machine enables purchases of listed items via 
+This Machine enables vending of listed products from product catalogue with sales dashboard and.
 
 
 Sample Tasks
